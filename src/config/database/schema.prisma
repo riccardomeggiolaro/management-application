@@ -1,0 +1,107 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model cards {
+  id             Int     @id @default(autoincrement())
+  cardCode       String  @db.VarChar(30)
+  vehicle        String? @db.VarChar(20)
+  plate          String? @db.VarChar(10)
+  tare           Int     @default(0)
+  subjectId      Int?
+  installationId Int
+  numberCard     String  @db.Char(5)
+  materialId     Int?
+  note           String? @db.VarChar(50)
+
+  @@index([cardCode], map: "IDX_41cbc5d6c407cc8e2e69d54c03")
+  @@index([numberCard], map: "numberCard")
+}
+
+model events {
+  id             Int       @id @default(autoincrement())
+  installationId Int?
+  dt_insert      DateTime  @default(now()) @db.DateTime(0)
+  dt_create      DateTime? @db.DateTime(0)
+  progressive    BigInt?
+  note1          String?   @db.VarChar(50)
+  note2          String?   @db.VarChar(50)
+  weight1        BigInt?
+  pid1           String?   @db.VarChar(12)
+  weight2        BigInt?
+  pid2           String?   @db.VarChar(12)
+  netWeight      BigInt?
+  vehicle        String?   @db.VarChar(20)
+  plate          String?   @db.VarChar(10)
+  material       String    @db.Char(25)
+  rawid          BigInt
+  materialId     Int?
+  subjectId      Int?
+  cardCode       String?   @db.VarChar(30)
+  note           String?   @db.VarChar(50)
+
+  @@index([dt_create], map: "IDX_ac57c28f2ef1acc83fe2292f28")
+  @@index([materialId], map: "materialId")
+  @@index([plate], map: "plate")
+  @@index([subjectId], map: "subjectId")
+}
+
+model installations {
+  id               Int    @id @default(autoincrement())
+  installationCode String @db.VarChar(50)
+  description      String @db.VarChar(50)
+  imei             String @db.Char(15)
+}
+
+model materials {
+  id          Int    @id @default(autoincrement())
+  description String @db.VarChar(30)
+
+  @@index([description], map: "description")
+}
+
+model raw {
+  id            BigInt   @id @default(autoincrement())
+  device        String   @db.Char(25)
+  dt_insert     DateTime @db.DateTime(0)
+  dt            DateTime @db.DateTime(0)
+  latitude      Float?   @db.Float
+  longitude     Float?   @db.Float
+  altitude      Float?   @db.Float
+  angle         Int?
+  sats          Int?
+  speed         Int?
+  priority      Int?
+  event_trigger Int?
+  n1io          Json?
+  n2io          Json?
+  n4io          Json?
+  n8io          Json?
+  nxio          Json?
+  ip            String   @db.Char(15)
+  codec         String   @db.Char(2)
+  cmdtype       Int?
+  command       String?  @db.VarChar(512)
+  sync          Boolean  @default(false)
+
+  @@index([codec], map: "codec")
+  @@index([device], map: "device")
+  @@index([dt], map: "dt")
+  @@index([sats], map: "sats")
+  @@index([sync], map: "sync")
+}
+
+model subjects {
+  id              Int     @id @default(autoincrement())
+  socialReason    String  @db.VarChar(50)
+  telephoneNumber Int?
+  CFPIVA          String? @db.VarChar(30)
+
+  @@index([socialReason], map: "IDX_5523c711dd762217e55ae0ce16")
+}
