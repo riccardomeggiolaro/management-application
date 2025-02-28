@@ -21,10 +21,6 @@ export class PrismaConnectionPool implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     // Inizializzazione del pool con la connessione di default
-    const defaultDbUrl = this.configService.get<string>('DATABASE_URL');
-    if (defaultDbUrl) {
-      await this.getClient(defaultDbUrl);
-    }
   }
 
   async onModuleDestroy() {

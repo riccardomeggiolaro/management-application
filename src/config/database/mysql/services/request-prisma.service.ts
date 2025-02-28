@@ -2,18 +2,7 @@ import { Injectable, Inject, Scope, OnModuleInit } from '@nestjs/common';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { REQUEST } from '@nestjs/core';
 import { PrismaConnectionPool } from './prisma-connection-pool';
-
-// Define types for model delegates to help TypeScript recognize methods
-type PrismaModelDelegate = {
-  findMany: (args?: any) => Promise<any[]>;
-  findUnique: (args: any) => Promise<any>;
-  findFirst: (args?: any) => Promise<any>;
-  create: (args: any) => Promise<any>;
-  update: (args: any) => Promise<any>;
-  delete: (args: any) => Promise<any>;
-  count: (args?: any) => Promise<number>;
-  // Add other Prisma methods you need
-};
+import { PrismaModelDelegate, PrismaModelDelegateMaterial } from '../prismaModelDelegate';
 
 @Injectable({ scope: Scope.REQUEST })
 export class RequestPrismaService implements OnModuleInit {
@@ -52,7 +41,7 @@ export class RequestPrismaService implements OnModuleInit {
   }
 
   // Define properties with proper type annotations
-  get materials(): PrismaModelDelegate {
+  get materials(): PrismaModelDelegateMaterial {
     return this.createModelProxy('materials');
   }
   
@@ -62,7 +51,7 @@ export class RequestPrismaService implements OnModuleInit {
     
     return new Proxy({} as PrismaModelDelegate, {
       get(target, prop) {
-        return async function(...args) {
+        return async function(...args: any) {
           await service.initializeClient();
           
           if (!service.prismaClient) {

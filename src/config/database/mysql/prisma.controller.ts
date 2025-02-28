@@ -1,7 +1,7 @@
-import { Controller, Get, UseGuards, Request, Post } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AuthUser } from '@shared/decorators';
 import { User } from '@shared/guards/user';
-import { RequestPrismaService } from './request-prisma.service';
+import { RequestPrismaService } from './services/request-prisma.service';
 
 @Controller('materials')
 export class MaterialsController {
@@ -22,6 +22,6 @@ export class MaterialsController {
 
   @Post('register')
   async registerMaterial(@AuthUser() user: User) {
-    return this.prisma.materials.create({data: {description: "wefjwfuou"}})
+    return this.prisma.materials.create({data: {description: ""}})
   }
 }
