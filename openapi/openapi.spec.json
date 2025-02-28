@@ -11,6 +11,39 @@
           }
         }
       }
+    },
+    "/api/materials": {
+      "get": {
+        "operationId": "MaterialsController_getAllMaterials",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/materials/count": {
+      "get": {
+        "operationId": "MaterialsController_getMaterialsCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/materials/register": {
+      "post": {
+        "operationId": "MaterialsController_registerMaterial",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "info": {
