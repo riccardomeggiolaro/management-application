@@ -5,7 +5,7 @@ import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import { ConfigService } from '@nestjs/config';
-import { AccessApp } from './user';
+import { AccessApp, ApplicationFunctionalData, ApplicationFunctionalDataExample } from './user';
 
 @Injectable()
 export class HttpGuard implements CanActivate {
@@ -21,6 +21,14 @@ export class HttpGuard implements CanActivate {
         ) ?? null;
     }   
 
+    hasSameAttributes(obj: any): boolean {
+        if (typeof obj !== "object" || obj === null) return false;
+      
+        const referenceKeys = Object.keys(new ApplicationFunctionalDataExample());
+
+        return referenceKeys.every(key => key in obj);
+    }
+          
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const isPublic: boolean = this.reflector.getAllAndOverride<boolean>(
             IS_PUBLIC_KEY,
@@ -45,6 +53,12 @@ export class HttpGuard implements CanActivate {
             const accessAppCode: AccessApp | null = this.getApplicationByCode(response.data, appCode);
 
             if (!accessAppCode) throw new UnauthorizedException('You are not enable to access on this app');
+
+            const appplicationFunctionalData: ApplicationFunctionalData = JSON.parse(accessAppCode.applicationFunctionalData as unknown as string);
+
+            if (!this.hasSameAttributes(appplicationFunctionalData)) throw new UnauthorizedException(`Your applicationFunctionalData are not correct. Your data is: ${JSON.stringify(appplicationFunctionalData)}. Exptected example is: ${JSON.stringify(new ApplicationFunctionalDataExample())}`);
+
+            accessAppCode.applicationFunctionalData = appplicationFunctionalData;
 
             response.data.access_app = accessAppCode;
 

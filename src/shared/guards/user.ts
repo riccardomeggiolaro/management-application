@@ -18,10 +18,20 @@ interface ApplicationTenantDB {
   database_connection: string;
 }
 
+export interface ApplicationFunctionalData {
+  accessLevel: number;
+  installationId: number;
+}
+
+export class ApplicationFunctionalDataExample {
+  accessLevel: number = 0;
+  installationId: number = 0;
+}
+
 export interface AccessApp {
   id: string;
   application_tenant_db: ApplicationTenantDB;
-  applicationFunctionalData: JSON; // Puoi cambiare il tipo in base al contenuto reale se necessario
+  applicationFunctionalData: ApplicationFunctionalData;
 }
 
 export interface Profile {

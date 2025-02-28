@@ -4,16 +4,16 @@ import { Role } from './role';
 import { User } from './user';
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class SuperAdminGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {
         const request = context.switchToHttp().getRequest();
         const user: User = request.user; // Assuming you have user info attached to the request
 
         // Check if the user is an admin
-        if (user && user.access_app.applicationFunctionalData.accessLevel >= Role.ADMIN) {
+        if (user && user.access_app.applicationFunctionalData.accessLevel === Role.SUPER_ADMIN) {
             return true;
         }
 
-        throw new ForbiddenException('Permission denied: this operation is reserved for administrators only.');        
+        throw new ForbiddenException('Permission denied: this operation is reserved for super administrators only.');        
     }
 }
