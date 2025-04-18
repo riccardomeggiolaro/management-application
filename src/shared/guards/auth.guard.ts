@@ -44,25 +44,19 @@ export class HttpGuard implements CanActivate {
 
         try {
             // Effettua la richiesta GET usando HttpService
-            const response = await lastValueFrom(
+            const accessApp = await lastValueFrom(
                 this.httpService.get(endpoint, {
                     headers: { Authorization: authHeader },
                 })
             );
 
-            const accessAppCode: AccessApp | null = this.getApplicationByCode(response.data, appCode);
+            if (!accessApp) throw new UnauthorizedException('You are not enable to access on this app');
 
-            if (!accessAppCode) throw new UnauthorizedException('You are not enable to access on this app');
-
-            const appplicationFunctionalData: ApplicationFunctionalData = JSON.parse(accessAppCode.applicationFunctionalData as unknown as string);
+            const appplicationFunctionalData: ApplicationFunctionalData = JSON.parse(accessApp.data.applicationFunctionalData as string);
 
             if (!this.hasSameAttributes(appplicationFunctionalData)) throw new UnauthorizedException(`Your applicationFunctionalData are not correct. Your data is: ${JSON.stringify(appplicationFunctionalData)}. Exptected example is: ${JSON.stringify(new ApplicationFunctionalDataExample())}`);
 
-            accessAppCode.applicationFunctionalData = appplicationFunctionalData;
-
-            response.data.access_app = accessAppCode;
-
-            request.user = response.data;
+            request.user = accessApp.data;
 
             return true;
         } catch (error) {

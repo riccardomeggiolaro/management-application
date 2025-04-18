@@ -19,12 +19,10 @@ interface ApplicationTenantDB {
 }
 
 export interface ApplicationFunctionalData {
-  accessLevel: number;
   installationId: number;
 }
 
 export class ApplicationFunctionalDataExample {
-  accessLevel: number = 0;
   installationId: number = 0;
 }
 
@@ -55,21 +53,27 @@ export interface Profile {
 }
 
 export interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-  isActive: boolean;
-  company?: {
-    id: string;
-    description: string;
-    cell: string;
-    cfpiva: string;
-  };
-  createdAt: Date;
-  updatedAt: Date;
-  picture: string | null;
-  password: string;
-  access_app: AccessApp;
+  id: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  role: string,
+  picture: string | null,
+  isActive: boolean,
+  createdAt: string,
+  updatedAt: string,
+  password: string,
+  company: {
+      id: string,
+      description: string,
+      cell: string | null,
+      cfpiva: string | null
+  },
+  database_connection: string,
+  application: {
+      id: string,
+      description: string,
+      code: string
+  },
+  applicationFunctionalData: ApplicationFunctionalData;
 }

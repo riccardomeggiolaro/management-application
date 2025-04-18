@@ -12,7 +12,7 @@
         }
       }
     },
-    "/api/materials": {
+    "/api/installation/list": {
       "get": {
         "operationId": "MaterialsController_getAllMaterials",
         "parameters": [],
@@ -23,7 +23,7 @@
         }
       }
     },
-    "/api/materials/count": {
+    "/api/installation/count": {
       "get": {
         "operationId": "MaterialsController_getMaterialsCount",
         "parameters": [],
@@ -34,12 +34,42 @@
         }
       }
     },
-    "/api/materials/register": {
+    "/api/installation/register": {
       "post": {
         "operationId": "MaterialsController_registerMaterial",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/installation/{id}": {
+      "delete": {
+        "operationId": "MaterialsController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
             "description": ""
           }
         }
@@ -62,6 +92,11 @@
         "type": "http"
       }
     },
-    "schemas": {}
+    "schemas": {
+      "RegisterDTO": {
+        "type": "object",
+        "properties": {}
+      }
+    }
   }
 }

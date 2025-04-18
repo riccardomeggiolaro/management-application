@@ -33,31 +33,10 @@ export class EnvironmentVariables {
   DATABASE_URL: string;
 
   @IsString()
-  JWT_SECRET: string;
-
-  @IsString()
-  JWT_EXPIRATION_TIME: string;
-
-  @IsString()
-  EMAIL_HOST: string;
-
-  @IsString()
-  EMAIL_USER: string;
-
-  @IsString()
-  EMAIL_PASS: string;
-
-  @IsEmail()
-  EMAIL_FROM: string;
-
-  @IsString()
   @IsEnum(Language, {
     message: 'I18N_FALLBACK must be one of the following values: en, it',
   })
   I18N_FALLBACK: string;
-
-  @IsUrl()
-  APP_BASEURL: string;
 }
 
 export function validate(

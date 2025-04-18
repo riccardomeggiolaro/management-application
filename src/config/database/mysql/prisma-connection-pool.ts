@@ -36,6 +36,7 @@ export class PrismaConnectionPool implements OnModuleInit, OnModuleDestroy {
   }
 
   async getClient(connectionString: string): Promise<PrismaClient> {
+    console.log(connectionString);
     // Controllo se la connessione esiste già nel pool
     if (!this.connectionPool.has(connectionString)) {
       // Creo nuova istanza di PrismaClient per questo database

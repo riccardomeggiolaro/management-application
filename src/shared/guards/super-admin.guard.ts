@@ -10,7 +10,7 @@ export class SuperAdminGuard implements CanActivate {
         const user: User = request.user; // Assuming you have user info attached to the request
 
         // Check if the user is an admin
-        if (user && user.access_app.applicationFunctionalData.accessLevel === Role.SUPER_ADMIN) {
+        if (user && user.role === Role.SUPER_ADMIN) {
             return true;
         }
 
